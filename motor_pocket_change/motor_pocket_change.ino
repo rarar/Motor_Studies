@@ -72,8 +72,8 @@ void initMessage()
 
 
 void setup() {
-  pinMode(9, OUTPUT);
-  digitalWrite(9, HIGH);
+  pinMode(8, OUTPUT);
+  digitalWrite(8, HIGH);
   Serial.begin(9600);           // set up Serial library at 9600 bps
 
   // HC-05 default serial speed for AT mode is 38400
@@ -90,8 +90,7 @@ void setup() {
   BTserial.println("AT+INQ");
 
   AFMS.begin();  // create with the default frequency 1.6KHz
-
-  // Set the speed to start, from 0 (off) to 255 (max speed)
+  
   myMotor->setSpeed(motorSpeeds[0]);
   myOtherMotor->setSpeed(motorSpeeds[1]);
 }
@@ -124,10 +123,10 @@ void readBuffer() {
         {
           Serial.print("Total = ");
           Serial.println(total);
-          period = map(total, 0, 50, 10000, 2000);
+          period = map(total, 0, 50, 45000, 2000);
           Serial.print("Period is now ");
           Serial.println(period);
-          motorSpeeds[0] = map(total, 0, 50, 15, 150);
+          motorSpeeds[0] = map(total, 0, 50, 65, 100);
           motorSpeeds[1] = random(motorSpeeds[0] - 10, motorSpeeds[1] + 10);
           Serial.print("Motor Speed 1 is now ");
           Serial.println(motorSpeeds[0]);
@@ -191,7 +190,7 @@ void readBuffer() {
 void loop() {
   unsigned long currentMillis = millis();
   readBuffer();
-  if (currentMillis - previousMillis >= period) { // check if 1000ms passed
+  if (currentMillis - previousMillis >= period) {
     if (phaseOneOn) {
       Serial.println("Phase One!");
       myMotor->run(FORWARD);
@@ -213,19 +212,8 @@ void loop() {
     }
     myMotor->setSpeed(motorSpeeds[0]);
     myOtherMotor->setSpeed(motorSpeeds[1]);
-    previousMillis = currentMillis;   // save the last time you blinked the LED
+    previousMillis = currentMillis;   
   }
 
-  //
-  //  myMotor->run(FORWARD);
-  //  myOtherMotor->run(BACKWARD);
-  //  delay(period);  // run forward for 1 second
-  //  myMotor->run(RELEASE);
-  //  myOtherMotor->run(RELEASE);
-  //  delay(period);
-  //  myMotor->run(BACKWARD);  // run in reverse
-  //  myOtherMotor->run(FORWARD);
-  //  delay(period);
-  //  myMotor->setSpeed(random((motorSpeed - 10), (motorSpeed + 10)));
-  //  myOtherMotor->setSpeed(random((motorSpeed - 10), (motorSpeed + 10)));
+  
 }
