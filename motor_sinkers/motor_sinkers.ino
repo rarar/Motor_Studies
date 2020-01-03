@@ -13,8 +13,8 @@ bool capture = false;
 String send = "";
 
 unsigned long previousMillis = 0;  //will store last time LED was blinked
-unsigned long period = 15000;
-const int MAX_PERIOD = 30000;
+unsigned long period = 20000;
+unsigned long MAX_PERIOD = 45000;
 
 int motorSpeed = 2500;
 int motorAccel = 200;
